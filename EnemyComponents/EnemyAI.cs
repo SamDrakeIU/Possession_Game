@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(FieldOfView))]
 public class EnemyAI : MonoBehaviour
@@ -12,11 +13,12 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public float detectionRange = 10f;
 
+    public float resetDistance = 1.5f;
+
     private int patrolIndex = 0;
     private float idleTimer = 0f;
 
     private FieldOfView FOV;
-
     void Start()
     {
         currentState = AIState.Idle;
@@ -31,6 +33,10 @@ public class EnemyAI : MonoBehaviour
             return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer < resetDistance)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
         if (FOV.canSeePlayer == true)
         {
