@@ -5,9 +5,12 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(FieldOfView))]
 public class EnemyAI : MonoBehaviour
 {
+
+    private const int ALARM_RATE = 5;
     public enum AIState { Idle, Patrol, Chase }
     public AIState currentState;
 
+    public float alarmLevel;
     public NavMeshAgent agent;
     public Transform[] patrolPoints;
     public Transform player;
@@ -41,6 +44,7 @@ public class EnemyAI : MonoBehaviour
         if (FOV.canSeePlayer == true)
         {
             currentState = AIState.Chase;
+
         }
         else if (currentState == AIState.Chase && distanceToPlayer > detectionRange)
         {
@@ -61,6 +65,13 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (currentState == AIState.Chase)
+        {
+            alarmLevel += ALARM_RATE * Time.deltaTime;
+        }
+    }
     void Idle()
     {
         agent.isStopped = true;

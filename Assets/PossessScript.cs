@@ -23,7 +23,7 @@ public class PossessScript : MonoBehaviour
     private String possessedName;
     private int possessableIndex;
     private GameObject possessedObject;
-    private bool possessing;
+    public bool possessing;
 
     private Vector3 positionDiff;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
